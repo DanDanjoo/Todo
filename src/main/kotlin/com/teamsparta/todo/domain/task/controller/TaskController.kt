@@ -4,6 +4,7 @@ package com.teamsparta.todo.domain.task.controller
 import com.teamsparta.todo.domain.task.dto.CreateTaskRequest
 import com.teamsparta.todo.domain.task.dto.TaskResponse
 import com.teamsparta.todo.domain.task.dto.UpdateTaskRequest
+import com.teamsparta.todo.domain.task.service.TaskService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/task")
 @Tag(name = "Task", description = "Task management APIs")
-class TaskController {
+class TaskController(
+    private val taskService: TaskService
+
+) {
 
     @PostMapping
     @Operation(summary = "Task 만들기", description = "새로운 Task 항목을 생성합니다.")
