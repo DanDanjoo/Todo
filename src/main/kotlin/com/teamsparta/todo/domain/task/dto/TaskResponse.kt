@@ -10,5 +10,5 @@ data class TaskResponse (
     val dueDate : String,
     val completed : Boolean,
     val createdAt : LocalDateTime,
-    val updateAt  : LocalDateTime,
+    val updateAt  : LocalDateTime
 )
