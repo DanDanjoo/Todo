@@ -2,7 +2,6 @@ package com.teamsparta.todo.domain.comment.controller
 
 import com.teamsparta.todo.domain.comment.dto.AddCommentRequest
 import com.teamsparta.todo.domain.comment.dto.CommentResponse
-import com.teamsparta.todo.domain.comment.dto.RemoveCommentRequest
 import com.teamsparta.todo.domain.comment.dto.UpdateCommentRequest
 import com.teamsparta.todo.domain.task.service.TaskService
 import io.swagger.v3.oas.annotations.Operation
@@ -56,9 +55,9 @@ class CommentController(
     fun removeComment(
         @PathVariable taskId: Long,
         @PathVariable commentId: Long,
-        @RequestBody removeCommentRequest: RemoveCommentRequest
+
     ): ResponseEntity<Unit> {
-       taskService.removeComment(taskId, commentId, removeCommentRequest)
+       taskService.removeComment(taskId, commentId)
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()

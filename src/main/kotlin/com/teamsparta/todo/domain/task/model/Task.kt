@@ -1,5 +1,6 @@
 package com.teamsparta.todo.domain.task.model
 
+import com.teamsparta.todo.domain.comment.model.Comment
 import com.teamsparta.todo.domain.task.dto.TaskResponse
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -27,7 +28,12 @@ class Task(
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany(mappedBy = "task", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var comment : MutableList<Comment> = mutableListOf(),
+
+
 
     ) {
 

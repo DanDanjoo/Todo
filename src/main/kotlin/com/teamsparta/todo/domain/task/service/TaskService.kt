@@ -2,7 +2,6 @@ package com.teamsparta.todo.domain.task.service
 
 import com.teamsparta.todo.domain.comment.dto.AddCommentRequest
 import com.teamsparta.todo.domain.comment.dto.CommentResponse
-import com.teamsparta.todo.domain.comment.dto.RemoveCommentRequest
 import com.teamsparta.todo.domain.comment.dto.UpdateCommentRequest
 import com.teamsparta.todo.domain.task.dto.CreateTaskRequest
 import com.teamsparta.todo.domain.task.dto.TaskResponse
@@ -30,6 +29,6 @@ interface TaskService {
 
     fun updateComment(taskId: Long, commentId: Long, request : UpdateCommentRequest): CommentResponse
 
-    fun removeComment(taskId: Long, commentId: Long, request : RemoveCommentRequest): CommentResponse
+    fun removeComment(taskId: Long, commentId: Long)
 
 }
