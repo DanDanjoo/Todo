@@ -18,7 +18,7 @@ class Task(
     var title: String,
 
     @Column
-    var description: String,
+    var description: String?,
 
     @Column
     var dueDate: String,
