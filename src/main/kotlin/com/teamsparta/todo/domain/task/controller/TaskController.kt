@@ -1,6 +1,9 @@
 package com.teamsparta.todo.domain.task.controller
 
 
+import com.teamsparta.todo.domain.task.dto.CreateTaskRequest
+import com.teamsparta.todo.domain.task.dto.TaskResponse
+import com.teamsparta.todo.domain.task.dto.UpdateTaskRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
