@@ -1,10 +1,7 @@
 package com.teamsparta.todo.domain.task.model
 
 import com.teamsparta.todo.domain.task.dto.TaskResponse
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 
@@ -26,15 +23,16 @@ class Task(
     @Column
     var completed: Boolean,
 
-    @Column (name = "date")
+    @Column
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @Column (name = "date")
+    @Column
     var updatedAt: LocalDateTime = LocalDateTime.now()
 
     ) {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id
     var id: Long? = null
 }
 
