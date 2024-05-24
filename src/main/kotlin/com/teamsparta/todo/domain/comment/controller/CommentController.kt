@@ -33,6 +33,7 @@ class CommentController(
     }
 
     @GetMapping("/{commentId}")
+    @Operation(summary = "Comment Id로 조회하기", description = "Id로 Comment 를 조회합니다.")
     fun getComment(@PathVariable taskId: Long, @PathVariable commentId : Long): ResponseEntity<CommentResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -40,6 +41,7 @@ class CommentController(
     }
 
     @PutMapping("/{commentId}")
+    @Operation(summary = "Comment Id로 수정하기", description = "Id로 Comment 를 수정합니다.")
     fun updateComment(
         @PathVariable taskId: Long,
         @PathVariable commentId: Long,
@@ -52,6 +54,7 @@ class CommentController(
     }
 
     @DeleteMapping("/{commentId}")
+    @Operation(summary = "Comment Id로 삭제하기", description = "Id로 Comment 를 삭제합니다.")
     fun removeComment(
         @PathVariable taskId: Long,
         @PathVariable commentId: Long,
