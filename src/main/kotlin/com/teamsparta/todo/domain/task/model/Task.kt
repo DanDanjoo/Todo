@@ -22,9 +22,6 @@ class Task(
     var dueDate: String,
 
     @Column
-    var completed: Boolean,
-
-    @Column
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column
@@ -40,6 +37,17 @@ class Task(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id
     var id: Long? = null
+
+    @Column
+    private var completed: Boolean = false
+
+
+    fun complete(){
+        completed = true
+
+    }
+
+
 }
 
 fun Task.toResponse(): TaskResponse {
@@ -49,7 +57,6 @@ fun Task.toResponse(): TaskResponse {
         title = title,
         description = description,
         dueDate = dueDate,
-        completed = completed,
         createdAt = createdAt,
         updateAt  = updatedAt
     )

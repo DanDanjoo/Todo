@@ -2,6 +2,7 @@ package com.teamsparta.todo.domain.task.service
 
 import com.teamsparta.todo.domain.comment.dto.AddCommentRequest
 import com.teamsparta.todo.domain.comment.dto.CommentResponse
+import com.teamsparta.todo.domain.comment.dto.RemoveCommentRequest
 import com.teamsparta.todo.domain.comment.dto.UpdateCommentRequest
 import com.teamsparta.todo.domain.comment.model.Comment
 import com.teamsparta.todo.domain.comment.model.toResponse
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TaskServiceImpl(
-    val taskRepository: TaskRepository,
+    private val taskRepository: TaskRepository,
     private val commentRepository: CommentRepository,
 
     ): TaskService {
@@ -35,19 +36,19 @@ class TaskServiceImpl(
 
         return task.toResponse()
     }
-
+    @Transactional
     override fun createTask(request: CreateTaskRequest): TaskResponse {
         val task = Task(
             title = request.title,
             username = request.username,
             description = request.description,
             dueDate = request.dueDate,
-            completed = request.completed,
+
             )
 
         return taskRepository.save(task).toResponse()
     }
-
+    @Transactional
     override fun updateTask(taskId: Long, request: UpdateTaskRequest): TaskResponse {
         val task = taskRepository.findByIdOrNull(taskId) ?: throw ModelNotFoundException(taskId)
 
@@ -55,15 +56,24 @@ class TaskServiceImpl(
         task.username = request.username
         task.description = request.description
         task.dueDate = request.dueDate
-        task.completed = request.completed
+
 
     // 슈퍼 더티 채킹맨
         return task.toResponse()
     }
-
+    @Transactional
     override fun deleteTask(taskId: Long) {
         val task = taskRepository.findByIdOrNull(taskId) ?: throw ModelNotFoundException(taskId)
         taskRepository.delete(task)
+    }
+
+    @Transactional
+    override fun completeTask(taskId: Long) {
+        val task : Task =  taskRepository.findByIdOrNull(taskId) ?: throw ModelNotFoundException(taskId)
+
+        task.complete()
+
+
     }
 
     override fun getCommentList(taskId: Long): List<CommentResponse> {
@@ -93,18 +103,25 @@ class TaskServiceImpl(
         )
         return commentRepository.save(comment).toResponse()
     }
-
+    @Transactional
     override fun updateComment(taskId: Long, commentId: Long, request: UpdateCommentRequest): CommentResponse {
-
+        val task = taskRepository.findByIdOrNull(taskId) ?: throw ModelNotFoundException(taskId)
         val comment = commentRepository.findByTaskIdAndId(taskId, commentId) ?: throw ModelNotFoundException(commentId)
-        comment.username = request.username
-        comment.content = request.content
+
+
+        comment.checkAuthentication(request.username, request.password)
+        comment.changeContent(request.content)
+
         return commentRepository.save(comment).toResponse()
 
     }
-
-    override fun removeComment(taskId: Long, commentId: Long,) {
+    @Transactional
+    override fun removeComment(taskId: Long, commentId: Long, request: RemoveCommentRequest) {
+        val task = taskRepository.findByIdOrNull(taskId) ?: throw ModelNotFoundException(taskId)
         val comment = commentRepository.findByTaskIdAndId(taskId, commentId) ?: throw ModelNotFoundException(commentId)
-        commentRepository.delete(comment)
+
+        comment.checkAuthentication(request.username, request.password)
+
+        commentRepository.deleteById(commentId)
     }
 }

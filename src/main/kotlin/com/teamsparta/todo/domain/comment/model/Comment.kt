@@ -34,11 +34,26 @@ class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    fun checkAuthentication(username: String, password: String) {
+     if (username != this.username) {
+         throw Exception("잘못된 username 입니다!")
+     }
+     if (password != this.password) {
+         throw Exception("잘못된 password 입니다!")
+
+     }
+    }
+
+    fun changeContent(content: String?) {
+        this.content = content
+
+    }
 }
 
 fun Comment.toResponse(): CommentResponse {
     return CommentResponse (
-        id = id!!,
+
         username = username,
         password = password,
         content = content,
