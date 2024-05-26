@@ -26,13 +26,27 @@ class TaskServiceImpl(
 
     ): TaskService {
 
-    override fun getAllTaskList(): List<TaskResponse> {
-        return taskRepository.findAll().map { it.toResponse() }
+    override fun getAllTaskList(sort : String?, userName : String?): List<TaskResponse> {
+
+
+        userName?.let {
+           return taskRepository.findAllByUsername(userName).map { it.toResponse() }
+
+        }
+
+
+
+        return if(sort == "desc") {
+            taskRepository.findAllByOrderByCreatedAtDesc()
+        } else {
+            taskRepository.findAllByOrderByCreatedAtAsc()
+    } .map { it.toResponse() }
 
     }
 
     override fun getTaskById(taskId: Long): TaskResponse {
         val task = taskRepository.findByIdOrNull(taskId) ?: throw ModelNotFoundException(taskId)
+
 
         return task.toResponse()
     }

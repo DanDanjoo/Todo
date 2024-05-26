@@ -12,7 +12,7 @@ import com.teamsparta.todo.domain.task.dto.UpdateTaskRequest
 
 interface TaskService {
 
-    fun getAllTaskList(): List<TaskResponse>
+    fun getAllTaskList(sort : String?, userName : String?): List<TaskResponse>
 
     fun getTaskById(taskId: Long): TaskResponse
 
